@@ -11,7 +11,7 @@ import telnetlib
 from unittest import skip
 import pandas as pd
 #from tqdm import tqdm
-import filter_correct_3 as fk
+import filter_export as fk
 import bin_averaging_4 as ba
 import numpy as np
 from scipy.stats import weibull_min, weibull_max
