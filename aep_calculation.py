@@ -213,7 +213,64 @@ def extended():
     df = df.reset_index(drop=True)
     print(df)
 
+def delete_row():
+    global df
+    counter = 1
+    df = df.reset_index(drop=True)
+    group_df = df.groupby('Identifier')
+    for id, wea in group_df:
+        #df = df.reset_index(drop=True)
+        #wea = wea.reset_index(drop=True)
+        
+        print("COUNTER: ", counter)
+        if id != 'HK':
+            wea['Doppel'] = wea.duplicated(subset='Bin', keep='first')
+            print(wea['Doppel'])
+            for counter in range(len(wea['Doppel'])):
+                print("VALUE: ", counter)
+                if wea.at[counter, 'Doppel'] == True:
+                    print("wea.at[counter, 'Doppel']: ", wea.at[counter, 'Doppel'])
 
+                    print("wea.index[counter] = ", wea.index[counter])
+                    print("wea.index[counter + 1] = ", wea.index[counter + 1])
+                    print("wea.index[-1] = ", wea.index[-1])
+                    counter = wea.index[-1] + 1
+                    #df = df.drop([counter+1, wea.index[-1]])
+                    #wea = wea.drop([counter+1, wea.index[-1]])
+                    #wea = wea.reset_index(drop=True)
+                    break
+
+                counter += 1
+        print("WEA")
+        print(wea)
+
+
+def del_row():
+    global df
+    counter = 0
+    df = df.reset_index(drop=True)
+    group_df = df.groupby('Identifier')
+    for id, wea in group_df:
+        wea['Doppel'] = wea.duplicated(subset='Bin', keep='first')
+        print(wea)
+        df[df['Doppel']] = wea['Doppel']
+        print(df)
+
+    #print("DAS IST DF LO")
+    #print(df)
+    #df['Doppel'] = df.duplicated(subset='Bin', keep='first')
+    #print("DAS IST DF LO")
+    #print(df)
+    for i in df:
+        if df.at[counter, 'Identifier'] != 'HK':
+           
+            if df.at[counter, 'Identifier'] == df.at[counter + 1, 'Identifier']:
+                if df.at[counter, 'Bin'] == df.at[counter + 1, 'Bin']:
+                    if df.at[counter, 'Identifier'] == df.at[counter + 2, 'Identifier']:
+                        #df = df.drop(counter+2)
+                        print("HALLLOOO")
+        
+        counter += 1
 def delete_extended():
     global df
     counter = 0
@@ -224,23 +281,26 @@ def delete_extended():
             wea['Doppel'] = wea.duplicated(subset='Bin', keep='first')
             print(wea)
             print(wea['Doppel'])
-            for boolean in wea['Doppel']:
-                print("BOOLEAN: ", boolean)
-                true_counter = 0
-                if boolean == True:
-                    idx_true = wea[wea['Doppel']==True].index[0]
-                    print("id_true,", idx_true)
-                    print("wea.index[-1], ", wea.index[-1])
-                    true_counter += 1
+            if wea['Doppel'].isin(True):
+                idx_true = wea[wea['Doppel']==True].index[0]
+                print("idx_true,", idx_true)
+            #for boolean in wea['Doppel']:
+             #   print("BOOLEAN: ", boolean)
+              #  true_counter = 0
+               # if boolean == True:
+                #    idx_true = wea[wea['Doppel']==True].index[0]
+                 #   print("id_true,", idx_true)
+                  #  print("wea.index[-1], ", wea.index[-1])
+                   # true_counter += 1
                     #print("wea[1]: ",wea.at[counter-1, 'Bin'])
                     #print("wea[2]: ", wea.at[counter, 'Bin'])
-                if true_counter == 1:
-                    wea = wea.drop([idx_true +1, wea.index[-1]])
-                    df = df.drop([idx_true +1, wea.index[-1]])
-                    break
+                #if true_counter == 1:
+                 #   wea = wea.drop([idx_true +1, wea.index[-1]])
+                  #  df = df.drop([idx_true +1, wea.index[-1]])
+                   # break
                 counter += 1
-                print("WEA UPDATE")
-                print(wea)
+            print("WEA UPDATE")
+            print(wea)
         #if True in wea['Doppel']:
         #    print("TRUE IN WEA")
           #  id_true = wea[wea['Doppel'] == True].index[0]
@@ -491,7 +551,9 @@ df = df.reset_index(drop=True)
 
 cacu()
 extended()
-delete_extended()
+del_row()
+#delete_row()
+#delete_extended()
 #verteilung()
 #extend_verteilung()
 #pi_cal()
