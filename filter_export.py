@@ -485,11 +485,11 @@ def df_bin(df):
     '''
     print("start df_bin")
     counter = 0
-    for f in tqdm(df['Corrected Wind Speed']):
-        if f != 0:
+    for corrected_wind_speed in tqdm(df['Corrected Wind Speed']):
+        if corrected_wind_speed != 0:
             try:  
-                val = 2 + int((f - 0.25) / 0.5)
-                df.at[counter, 'Bin'] = val
+                value = 2 + int((corrected_wind_speed - 0.25) / 0.5)
+                df.at[counter, 'Bin'] = value
             except:
                 df.at[counter, 'Bin'] = 0
         counter += 1
