@@ -115,8 +115,7 @@ mrk_kennlinie = [{'Identifier': 'HK', 'V': , 'P': },
                 {'Identifier': 'HK', 'V': , 'P': },
                 {'Identifier': 'HK', 'V': , 'P': },
                 {'Identifier': 'HK', 'V': , 'P': },
-                {'Identifier': 'HK', 'V': , 'P': },
-]
+                {'Identifier': 'HK', 'V': , 'P': }]
 '''
 
 '''
@@ -196,8 +195,7 @@ ava_kennlinie = [{'Identifier': 'HK', 'V': 0, 'P': 0},
                 {'Identifier': 'HK', 'V': 16.5, 'P': 5034.26},
                 {'Identifier': 'HK', 'V': 17, 'P': 5034.78},
                 {'Identifier': 'HK', 'V': 17.6, 'P': 5034.47},
-                {'Identifier': 'HK', 'V': 25, 'P': 5034.47},
-]
+                {'Identifier': 'HK', 'V': 25, 'P': 5034.47}]
 '''
 # print(pd.cut(df_f['V'], [0,2,3,4,5,6,8],labels=False))
 
