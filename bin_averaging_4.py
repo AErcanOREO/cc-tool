@@ -69,9 +69,54 @@ twb_kennlinie = [ {'Identifier': 'HK', 'V': 3, 'P': 0},
                   {'Identifier': 'HK', 'V': 30, 'P':   6386.350148}]
 
 '''
-rg_kennlinie = [{'Identifier': 'HK', 'V': , 'P': },
-                 'Identifier': 'HK', 'V': , 'P': },
-                 'Identifier': 'HK', 'V': , 'P': }]
+rg_kennlinie = [{'Identifier': 'HK', 'V': 0, 'P': 0},
+                 {'Identifier': 'HK', 'V': 1, 'P': 0},
+                 {'Identifier': 'HK', 'V': 2, 'P': 0},
+                 {'Identifier': 'HK', 'V': 3, 'P': 0},
+                 {'Identifier': 'HK', 'V': 4, 'P': 161},
+                 {'Identifier': 'HK', 'V': 5, 'P': 351},
+                 {'Identifier': 'HK', 'V': 6, 'P': 635},
+                 {'Identifier': 'HK', 'V': 7, 'P': 1026},
+                 {'Identifier': 'HK', 'V': 8, 'P': 1544},
+                 {'Identifier': 'HK', 'V': 9, 'P': 2204},
+                 {'Identifier': 'HK', 'V': 10, 'P': 2910},
+                 {'Identifier': 'HK', 'V': 11, 'P': 3399},
+                 {'Identifier': 'HK', 'V': 12, 'P': 3656},
+                 {'Identifier': 'HK', 'V': 13, 'P': 3776},
+                 {'Identifier': 'HK', 'V': 14, 'P': 3780},
+                 {'Identifier': 'HK', 'V': 15, 'P': 3780},
+                 {'Identifier': 'HK', 'V': 16, 'P': 3780},
+                 {'Identifier': 'HK', 'V': 17, 'P': 3780},
+                 {'Identifier': 'HK', 'V': 18, 'P': 3780},
+                 {'Identifier': 'HK', 'V': 19, 'P': 3690},
+                 {'Identifier': 'HK', 'V': 20, 'P': 3600},
+                 {'Identifier': 'HK', 'V': 21, 'P': 3600},
+                 {'Identifier': 'HK', 'V': 22, 'P': 3600},
+                 {'Identifier': 'HK', 'V': 23, 'P': 3600},
+                 {'Identifier': 'HK', 'V': 24, 'P': 3564},
+                 {'Identifier': 'HK', 'V': 25, 'P': 3528},
+                 {'Identifier': 'HK', 'V': 26, 'P': 3087},
+                 {'Identifier': 'HK', 'V': 27, 'P': 2646},
+                 {'Identifier': 'HK', 'V': 28, 'P': 2205},
+                 {'Identifier': 'HK', 'V': 29, 'P': 1764},
+                 {'Identifier': 'HK', 'V': 30, 'P': 1323},
+                 {'Identifier': 'HK', 'V': 31, 'P': 882},
+                 {'Identifier': 'HK', 'V': 32, 'P': 441}]
+'''
+
+'''
+mrk_kennlinie = [{'Identifier': 'HK', 'V': , 'P': ,},
+                {'Identifier': 'HK', 'V': , 'P': ,},
+                {'Identifier': 'HK', 'V': , 'P': ,},
+                {'Identifier': 'HK', 'V': , 'P': ,},
+                {'Identifier': 'HK', 'V': , 'P': ,},
+                {'Identifier': 'HK', 'V': , 'P': ,},
+                {'Identifier': 'HK', 'V': , 'P': ,},
+                {'Identifier': 'HK', 'V': , 'P': ,},
+                {'Identifier': 'HK', 'V': , 'P': ,},
+                {'Identifier': 'HK', 'V': , 'P': ,},
+                {'Identifier': 'HK', 'V': , 'P': ,},
+]
 '''
 
 # print(pd.cut(df_f['V'], [0,2,3,4,5,6,8],labels=False))
