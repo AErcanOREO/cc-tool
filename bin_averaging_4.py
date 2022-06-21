@@ -166,6 +166,39 @@ avs_kennlinie = [{'Identifier': 'HK', 'V': 3.5, 'P': 0 },
                 {'Identifier': 'HK', 'V': 30, 'P': 5113.1 }]
 '''
 
+'''
+ava_kennlinie = [{'Identifier': 'HK', 'V': 0, 'P': 0},
+                {'Identifier': 'HK', 'V': 4.1, 'P': 0},
+                {'Identifier': 'HK', 'V': 4.2, 'P': 104.37},
+                {'Identifier': 'HK', 'V': 4.5, 'P': 252.13},
+                {'Identifier': 'HK', 'V': 5, 'P': 369.08},
+                {'Identifier': 'HK', 'V': 5.5, 'P': 490.98},
+                {'Identifier': 'HK', 'V': 6, 'P': 754.6},
+                {'Identifier': 'HK', 'V': 6.6, 'P': 1047.49},
+                {'Identifier': 'HK', 'V': 7, 'P': 1317.27},
+                {'Identifier': 'HK', 'V': 7.5, 'P': 1593.35},
+                {'Identifier': 'HK', 'V': 8, 'P': 1892.65},
+                {'Identifier': 'HK', 'V': 8.5, 'P': 2248.87},
+                {'Identifier': 'HK', 'V': 9, 'P': 2604.76},
+                {'Identifier': 'HK', 'V': 9.5, 'P': 3119.59},
+                {'Identifier': 'HK', 'V': 10, 'P': 3535.78},
+                {'Identifier': 'HK', 'V': 10.5, 'P': 3880.29},
+                {'Identifier': 'HK', 'V': 11, 'P': 4453.5},
+                {'Identifier': 'HK', 'V': 11.5, 'P': 4832.56},
+                {'Identifier': 'HK', 'V': 12, 'P': 5022.07},
+                {'Identifier': 'HK', 'V': 13.1, 'P': 5033.45},
+                {'Identifier': 'HK', 'V': 13.4, 'P': 5042.06},
+                {'Identifier': 'HK', 'V': 14, 'P': 5032.94},
+                {'Identifier': 'HK', 'V': 14.5, 'P': 5036.3},
+                {'Identifier': 'HK', 'V': 15, 'P': 5034.02},
+                {'Identifier': 'HK', 'V': 15.6, 'P': 5036.35},
+                {'Identifier': 'HK', 'V': 16.2, 'P': 5035.71},
+                {'Identifier': 'HK', 'V': 16.5, 'P': 5034.26},
+                {'Identifier': 'HK', 'V': 17, 'P': 5034.78},
+                {'Identifier': 'HK', 'V': 17.6, 'P': 5034.47},
+                {'Identifier': 'HK', 'V': 25, 'P': 5034.47},
+]
+'''
 # print(pd.cut(df_f['V'], [0,2,3,4,5,6,8],labels=False))
 
 # Wenn Active Power Filter aus ist sind die BINS zwischen 6-13 wieder richtig drinne
