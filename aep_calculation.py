@@ -154,7 +154,7 @@ def extend():
                     df.at[df_len + df_counter, 'P'] = df.at[counter, 'P']
                     df_counter += 1
 
-                    df.drop([])
+                    #df.drop([])
 def extended():
     global df
     df_len = len(df)
@@ -243,11 +243,29 @@ def del_row():
     df = df.reset_index(drop=True)
     group_df = df.groupby('Identifier')
     for id, wea in group_df:
+        if id == 'HK':
+            pass
         wea['Doppel'] = wea.duplicated(subset='Bin', keep='first')
-        print(wea)
-        df[df['Doppel']] = wea['Doppel']
-        print(df)
+        #print(wea)
+        df['Doppel'] = wea['Doppel']
+        #print(df)
+        for boolean in wea['Doppel']:
+            #print("BOOLEAN:")
+            #print(boolean)
+            if boolean == True:
+                first_point = wea[wea['Doppel'] == True].index[0]
+                print("FIRST POINT")
+                print(first_point)
+                end_point = wea.index[-1]
+                print("END POINT")
+                print(end_point)
 
+                df = df.drop([first_point + 1, end_point])
+                wea = wea.drop([first_point + 1, end_point])
+                #print(df)
+                break
+        print("DAS IST wea DROPPED")
+        print(wea)
     #print("DAS IST DF LO")
     #print(df)
     #df['Doppel'] = df.duplicated(subset='Bin', keep='first')
