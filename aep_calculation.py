@@ -70,16 +70,8 @@ def rower():
 def cacu():
     counter = 0
     for value in df['V']:
-        #print("I:")
-        #print(value)
-        #print("df.at[counter, 'V']: ", df.at[counter, 'V'])
         if math.isnan(value):
-            #print("SChleife")
-            #print("I:")
-            #print(value)
             erg = df.at[counter + 1, 'V'] - 0.5
-            #print("ERG=")
-            #print(erg)
             df.at[counter, 'V'] = erg
             
         else:
