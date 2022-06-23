@@ -243,42 +243,44 @@ def del_row():
     df = df.reset_index(drop=True)
     group_df = df.groupby('Identifier')
     for id, wea in group_df:
-        if id == 'HK':
-            pass
-        wea['Doppel'] = wea.duplicated(subset='Bin', keep='first')
-        #print(wea)
-        df['Doppel'] = wea['Doppel']
-        #print(df)
-        for boolean in wea['Doppel']:
-            #print("BOOLEAN:")
-            #print(boolean)
-            if boolean == True:
-                first_point = wea[wea['Doppel'] == True].index[0]
-                print("FIRST POINT")
-                print(first_point)
-                end_point = wea.index[-1]
-                print("END POINT")
-                print(end_point)
+        print("ID: ", id)
+        if id != 'HK':
+            wea['Doppel'] = wea.duplicated(subset='Bin', keep='first')
+            #print(wea)
+            df['Doppel'] = wea['Doppel']
+            #print(df)
+            for boolean in wea['Doppel']:
+                #print("BOOLEAN:")
+                #print(boolean)
+                if boolean == True:
+                    first_point = wea[wea['Doppel'] == True].index[0]
+                    print("FIRST POINT")
+                    print(first_point)
+                    end_point = wea.index[-1]
+                    print("END POINT")
+                    print(end_point)
 
-                df = df.drop([first_point + 1, end_point])
-                wea = wea.drop([first_point + 1, end_point])
-                #print(df)
-                break
-        print("DAS IST wea DROPPED")
-        print(wea)
+                    df = df.drop([first_point + 1, end_point])
+                    wea = wea.drop([first_point + 1, end_point])
+                    #print(df)
+                    break
+            print("DAS IST wea DROPPED")
+            print(wea)
+        else:
+            print("HIER IST HGK")
     #print("DAS IST DF LO")
     #print(df)
     #df['Doppel'] = df.duplicated(subset='Bin', keep='first')
     #print("DAS IST DF LO")
     #print(df)
-    for i in df:
-        if df.at[counter, 'Identifier'] != 'HK':
+    #for i in df:
+    #    if df.at[counter, 'Identifier'] != 'HK':
            
-            if df.at[counter, 'Identifier'] == df.at[counter + 1, 'Identifier']:
-                if df.at[counter, 'Bin'] == df.at[counter + 1, 'Bin']:
-                    if df.at[counter, 'Identifier'] == df.at[counter + 2, 'Identifier']:
-                        #df = df.drop(counter+2)
-                        print("HALLLOOO")
+    #        if df.at[counter, 'Identifier'] == df.at[counter + 1, 'Identifier']:
+    #            if df.at[counter, 'Bin'] == df.at[counter + 1, 'Bin']:
+    #                if df.at[counter, 'Identifier'] == df.at[counter + 2, 'Identifier']:
+    #                    #df = df.drop(counter+2)
+    #                    print("HALLLOOO")
         
         counter += 1
 def delete_extended():
