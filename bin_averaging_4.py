@@ -430,7 +430,6 @@ def export_df(dataframe):
     
     # Exportiert Jede Anlage als einzelne CSV-Datei
 
-
     #date = datetime.now().strftime("%Y%m%d")
     #my_exportFile = "./export/Bin/" + date + ".csv"
     #vers = 0
@@ -438,8 +437,6 @@ def export_df(dataframe):
     #    vers = vers + 1
     #    my_exportFile = "./export/Bin/" + date + "(" + str(vers) + ")" + ".csv"
     #dataframe.to_csv(my_exportFile, sep=';', decimal=',')
-
-
     print(dataframe)
 
 
