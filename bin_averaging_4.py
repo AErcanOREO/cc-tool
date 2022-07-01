@@ -429,13 +429,17 @@ def export_df(dataframe):
     dataframe = dataframe.reset_index(drop = True)
     
     # Exportiert Jede Anlage als einzelne CSV-Datei
-    date = datetime.now().strftime("%Y%m%d")
-    my_exportFile = "./export/Bin/" + date + ".csv"
-    vers = 0
-    while os.path.isfile(my_exportFile):
-        vers = vers + 1
-        my_exportFile = "./export/Bin/" + date + "(" + str(vers) + ")" + ".csv"
-    dataframe.to_csv(my_exportFile, sep=';', decimal=',')
+
+
+    #date = datetime.now().strftime("%Y%m%d")
+    #my_exportFile = "./export/Bin/" + date + ".csv"
+    #vers = 0
+    #while os.path.isfile(my_exportFile):
+    #    vers = vers + 1
+    #    my_exportFile = "./export/Bin/" + date + "(" + str(vers) + ")" + ".csv"
+    #dataframe.to_csv(my_exportFile, sep=';', decimal=',')
+
+
     print(dataframe)
 
 

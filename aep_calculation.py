@@ -150,7 +150,7 @@ def extend():
                     df.at[df_len + df_counter, 'P'] = df.at[counter, 'P']
                     df_counter += 1
 
-                    df.drop([])
+                    #df.drop([])
 def extended():
     global df
     df_len = len(df)
