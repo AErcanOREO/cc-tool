@@ -6,6 +6,7 @@ Created on Tue Feb 22 14:13:02 2022
 """
 
 from ast import Index
+from cmath import nan
 from distutils.log import warn
 import telnetlib
 from tracemalloc import start
@@ -48,7 +49,6 @@ def rower():
     global df
     df = df.sort_values(['Identifier', 'Bin', 'V'])
     hk_df = df[df['Identifier'] != 'HK']
-    print("HK_DF: ", hk_df)
     id_df = hk_df.drop_duplicates('Identifier')
     counter = 0
 
@@ -68,6 +68,7 @@ def rower():
     df = df.drop([df_len+counter-1])
     df = df.sort_values(by=['Identifier', 'Bin', 'P'], ascending = True)
 
+
 def cacu():
     counter = 0
     for value in df['V']:
@@ -76,28 +77,6 @@ def cacu():
             df.at[counter, 'V'] = erg
 
         counter += 1
-
-
-
-#df.index = df.index + 1
-
-#print("DF INDEX + 1")
-#print(df.index)
-
-
-#df.at[0, 'Identifier'] = df.at[1, 'Identifier']
-
-
-#if df.at[1, 'V'] - 0.5 > 0:
- #       df.at[0, 'V'] = df.at[1, 'V'] - 0.5
-  #      df.at[0, 'P'] = 0
-
-#df = df.sort_index()
-
-
-#print("fd",ba.df_f)
-#print("df",df)
-#print("fd.df_f",ba.df_f)
 
 
 '''=SVERWEIS(was Sie nachschlagen möchten;
@@ -150,7 +129,6 @@ def extend():
                     df.at[df_len + df_counter, 'P'] = df.at[counter, 'P']
                     df_counter += 1
 
-                    #df.drop([])
 def extended():
     global df
     df_len = len(df)
@@ -165,7 +143,7 @@ def extended():
         #print()
 
         if counter == df_len-1:
-            print("FIRST IF DU HUEAN")
+            print("FIRST IF")
             print("INDEX: ", df.index[i])
             df.at[counter, 'V extended'] = df.at[counter, 'V']
             df.at[counter, 'f extended'] = df.at[counter, 'f']
@@ -174,16 +152,16 @@ def extended():
 
 
         if df.at[counter, 'Bin'] == 0.0 or df.at[counter, 'Identifier'] == 'HK':
-            print("SEC IF DU HUEAN")
+            print("SEC IF ")
             print("INDEX: ", df.index[i])
             df.at[counter, 'V extended'] = df.at[counter, 'V']
             df.at[counter, 'f extended'] = df.at[counter, 'f']
 
         elif df.at[counter, 'Identifier'] == df.at[counter + 1, 'Identifier']:
-            print("ELIF DU HUEAN")
+            print("ELIF ")
             print("INDEX: ", df.index[i])
             if df.at[counter, 'Bin'] == df.at[counter + 1, 'Bin'] - 1:
-                print("ELF IF IF DU HUEAN")
+                print("ELiF IF IF")
                 print("INDEX: ", df.index[i])
                 print("df.at[counter, 'Bin']: ", df.at[counter, 'Bin'])
                 print("df.at[counter + 1, 'Bin'] - 1: ", df.at[counter + 1, 'Bin'] - 1)
@@ -191,7 +169,7 @@ def extended():
                 df.at[counter, 'f extended'] = df.at[counter, 'f']
 
             else:
-                print("ELSE DU HUEAN")
+                print("ELSE")
                 print("INDEX: ", df.index[i])
                 df.at[counter, 'V extended'] = df.at[counter, 'V']
                 df.at[counter, 'f extended'] = df.at[counter, 'f']
@@ -209,6 +187,7 @@ def extended():
         
     #df['V extended'] = df['V extended'].fillna(30)
     
+    
     df = df.sort_values(['Identifier', 'Bin', 'V'])
     df = df.reset_index(drop=True)
     print(df)
@@ -221,34 +200,79 @@ def extendo():
 
     group_df = df.groupby('Identifier')
 
-    for i in range(len(df['Bin'])):
-        if df.at[counter, 'Bin'] == 0.0 or df.at[counter, 'Identifier'] == 'HK' or counter == df_len-1:
+    for id, wea in group_df:
+
+
+        if id == 'HK':
+            
             df.at[counter, 'V extended'] = df.at[counter, 'V']
             df.at[counter, 'f extended'] = df.at[counter, 'f']
-
-        elif df.at[counter, 'Identifier'] == df.at[counter + 1, 'Identifier']:
-            if df.at[counter, 'Bin'] == df.at[counter + 1, 'Bin'] - 1:
-                df.at[counter, 'V extended'] = df.at[counter, 'V']
-                df.at[counter, 'f extended'] = df.at[counter, 'f']
-
-            else:
-                df.at[counter, 'V extended'] = df.at[counter, 'V']
-                df.at[counter, 'f extended'] = df.at[counter, 'f']
-
-                df.at[df_len + df_counter, 'Identifier'] = df.at[counter, 'Identifier']
-                df.at[df_len + df_counter, 'Bin'] = df.at[counter, 'Bin']
-                df.at[df_len + df_counter, 'V'] = df.at[counter, 'V']
-                df.at[df_len + df_counter, 'V extended'] = 30
-                df.at[df_len + df_counter, 'P'] = df.at[counter, 'P']
-                df_counter += 1
         
-        
+        else:
 
+            for i in range(len(wea)):
+                print("COUNTER: ", counter)
+
+                if wea['Bin'].index[counter] == 0.0:
+                    df.at[counter, 'V extended'] = df.at[counter, 'V']
+                    df.at[counter, 'f extended'] = df.at[counter, 'f']
+
+                elif wea.index[counter] == wea.index[-1]:
+                    df.at[counter, 'V extended'] = df.at[counter, 'V']
+                    df.at[counter, 'f extended'] = df.at[counter, 'f']
+                    break
+
+                elif wea['Identifier'].index[counter] == wea['Identifier'].index[counter + 1] - 1:
+                    df.at[counter, 'V extended'] = df.at[counter, 'V']
+                    df.at[counter, 'f extended'] = df.at[counter, 'f']
+                
+                elif counter == len(wea):
+                    df.at[counter, 'V extended'] = df.at[counter, 'V']
+                    df.at[counter, 'f extended'] = df.at[counter, 'f']
+
+                else:
+                    df.at[counter, 'V extended'] = df.at[counter, 'V']
+                    df.at[counter, 'f extended'] = df.at[counter, 'f']
+
+                    df.at[df_len + df_counter, 'Identifier'] = df.at[counter, 'Identifier']
+                    df.at[df_len + df_counter, 'Bin'] = df.at[counter, 'Bin']
+                    df.at[df_len + df_counter, 'V'] = df.at[counter, 'V']
+                    df.at[df_len + df_counter, 'V extended'] = 30
+                    df.at[df_len + df_counter, 'P'] = df.at[counter, 'P']
+                    df_counter += 1
         counter += 1
 
     df = df.sort_values(['Identifier', 'Bin', 'V'])
     df = df.reset_index(drop=True)
-    print(df)
+    #print(df)
+    '''
+                if wea['Bin'].index[counter] == 0.0:
+                    df['V extended'].index[counter] = df['V'].index[counter]
+                    df['f extended'].index[counter] = df['f'].index[counter]
+
+                elif wea.index[counter] == wea.index[-1]:
+                    df['V extended'].index[counter] = df['V'].index[counter]
+                    df['f extended'].index[counter] = df['f'].index[counter]
+                    break
+
+                elif wea['Identifier'].index[counter] == wea['Identifier'].index[counter + 1] - 1:
+                    df['V extended'].index[counter] = df['V'].index[counter]
+                    df['f extended'].index[counter] = df['f'].index[counter]
+                
+                elif counter == len(wea):
+                    df['V extended'].index[counter] = df['V'].index[counter]
+                    df['f extended'].index[counter] = df['f'].index[counter]
+
+                else:
+                    df['V extended'].index[counter] = df['V'].index[counter]
+                    df['f extended'].index[counter] = df['f'].index[counter]
+
+                    df['Identifier'].index[df_len + df_counter] = df['Identifier'].index[counter]
+                    df['Bin'].index[df_len + df_counter] = df['Bin'].index[counter]
+                    df['V'].index[df_len + df_counter] = df['V'].index[counter]
+                    df['V extended'].index[df_len + df_counter] = 30
+                    df['P'].index[df_len + df_counter] = df['P'].index[counter]
+                    df_counter += 1'''
 
 def delete_row():
     global df
@@ -259,18 +283,18 @@ def delete_row():
         #df = df.reset_index(drop=True)
         #wea = wea.reset_index(drop=True)
         
-        print("COUNTER: ", counter)
+        #print("COUNTER: ", counter)
         if id != 'HK':
             wea['Doppel'] = wea.duplicated(subset='Bin', keep='first')
             print(wea['Doppel'])
             for counter in range(len(wea['Doppel'])):
-                print("VALUE: ", counter)
+                #print("VALUE: ", counter)
                 if wea.at[counter, 'Doppel'] == True:
-                    print("wea.at[counter, 'Doppel']: ", wea.at[counter, 'Doppel'])
+                    #print("wea.at[counter, 'Doppel']: ", wea.at[counter, 'Doppel'])
 
-                    print("wea.index[counter] = ", wea.index[counter])
-                    print("wea.index[counter + 1] = ", wea.index[counter + 1])
-                    print("wea.index[-1] = ", wea.index[-1])
+                    #print("wea.index[counter] = ", wea.index[counter])
+                    #print("wea.index[counter + 1] = ", wea.index[counter + 1])
+                    #print("wea.index[-1] = ", wea.index[-1])
                     counter = wea.index[-1] + 1
                     #df = df.drop([counter+1, wea.index[-1]])
                     #wea = wea.drop([counter+1, wea.index[-1]])
@@ -278,8 +302,8 @@ def delete_row():
                     break
 
                 counter += 1
-        print("WEA")
-        print(wea)
+        #print("WEA")
+        #print(wea)
 
 
 def del_row():
@@ -292,7 +316,7 @@ def del_row():
     for id, wea in group_df:
         if id != 'HK':
             wea['Doppel'] = wea.duplicated(subset='Bin', keep='first')
-            print(wea)
+            #print(wea)
             for boolean in wea['Doppel']:
                 #print("BOOLEAN VALUE: ")
                 #print(boolean)
@@ -312,8 +336,8 @@ def del_row():
                             start_df += 1
                         else:
                             df.drop(df[df['Doppel'] == True].index, inplace=True)
-                            print("DAS IST TRUE WEA")
-                            print(wea)
+                            #print("DAS IST TRUE WEA")
+                            #print(wea)
                             break
     
                     '''
@@ -348,11 +372,11 @@ def del_row():
     print("DAS IST UPDATE DF: ")
     print(df)
     
-    print("LÄNGE: ", len(start_list))
-    #%%
 
     '''
     distance = 0
+
+    print("LÄNGE: ", len(start_list))
 
     for list_counter in range(0, len(start_list)):
         df.drop(df.index[(start_list[list_counter] - distance) : (end_list[list_counter] + 1 - distance)], inplace = True)
@@ -578,18 +602,18 @@ def mwh_cacu():
     global mwh_df
     df_counter = 0
     id_df = df.groupby('Identifier')
-    print("ID_DF")
-    print(id_df)
+    #print("ID_DF")
+    #print(id_df)
     for id, wea in id_df:
-        print("ID")
-        print(id)
-        print(wea.index)
+        #print("ID")
+        #print(id)
+        #print(wea.index)
         counter = 0
         
         val = 0
         erg = 0
         wea = wea.reset_index(drop=True)
-        print(wea.index)
+        #print(wea.index)
         for i in range(wea.index[-1]):
             x = wea.at[counter, '(Pi-1+Pi)/2']
             y = wea.at[counter, 'f']
@@ -600,7 +624,7 @@ def mwh_cacu():
             counter += 1
         mwh_df.at[df_counter, 'Identifier'] = id
         mwh_df.at[df_counter, 'AEP'] = erg * 8700 / 1000
-        print("DF_COUNTER: ", df_counter)
+        #print("DF_COUNTER: ", df_counter)
 
         df_counter += 1
         
@@ -662,11 +686,10 @@ def abweichung():
 
 rower()
 df = df.reset_index(drop=True)
-
-
 cacu()
 #extendo()
 extended()
+df['V extended'] = df['V extended'].fillna(30)
 del_row()
 df = df.drop('Doppel', axis=1)
 verteilung()
@@ -675,11 +698,11 @@ pi_cal()
 
 print(df)
 
-#mwh_cacu()
-#mwh_extra_cacu()
-#abweichung()
-
+mwh_cacu()
+mwh_extra_cacu()
+abweichung()
 print(mwh_df)
+
 '''
 def f_calculate():
     counter = 1
