@@ -49,15 +49,16 @@ def rower():
     global df
     df = df.sort_values(['Identifier', 'Bin', 'V'])
     hk_df = df[df['Identifier'] != 'HK']
-    id_df = hk_df.drop_duplicates('Identifier')
+    id_df = df.drop_duplicates('Identifier')
+    id_group = df.groupby('Identifier')
     counter = 0
 
-    for i in id_df['Identifier']:
-        df_len = len(hk_df)
-        if i == 'HK':
+    for id, wea in id_group:
+        df_len = len(df)
+        if id == 'HK':
             pass
         else:
-            df.at[df_len+counter, 'Identifier'] = i
+            df.at[df_len+counter, 'Identifier'] = id
             df.at[df_len+counter, 'Bin'] = 0
             df.at[df_len+counter, 'P'] = 0
             counter += 1
@@ -65,8 +66,9 @@ def rower():
         #df = pd.concat(row_new)
         #df = df.append(new_row, ignore_index=False)
         
-    df = df.drop([df_len+counter-1])
+    #df = df.drop([df_len+counter])
     df = df.sort_values(by=['Identifier', 'Bin', 'P'], ascending = True)
+    df = df.reset_index(drop=True)
 
 
 def cacu():
@@ -98,6 +100,63 @@ bin 6    =SVERWEIS('result bin averaged power curve'!$N$2;'result bin averaged p
 
 bin 7 und weiter    =MIN(A5+1;SVERWEIS('result bin averaged power curve'!$N$5;'result bin averaged power curve'!$A$4:$I$84;1;FALSCH))
 '''
+def extend_test():
+    global df
+    counter = 0
+    df_counter = 1
+
+    len_df = len(df)
+
+    id_group = df.groupby('Identifier')
+    
+
+    for id, wea in id_group:
+        counter = wea.index[0]
+        for bin in wea['Bin']:
+            print()
+            print("BIN : ", bin)
+            #print("wea.at[counter + 1, 'Bin'] - 1: ", wea.at[counter + 1, 'Bin'] - 1)
+            print("DAS COunter: ", counter)
+            print("IDX: ", wea.index[-1])
+            print("DF_COUNTER: ", df_counter)
+
+            
+            if counter == wea.index[-1]:
+                df.at[counter, 'V extended'] = df.at[counter, 'V']
+
+                df.at[len_df + df_counter, 'Identifier'] = id
+                df.at[len_df + df_counter, 'Bin'] = bin
+                df.at[len_df + df_counter, 'V'] = df.at[counter, 'V']
+                df.at[len_df + df_counter, 'V extended'] = 30
+                df.at[len_df + df_counter, 'P'] = df.at[counter, 'P']
+                df_counter += 1
+                break
+
+            if bin == 0:
+                df.at[counter, 'V extended'] = df.at[counter, 'V']
+                df.at[counter, 'f extended'] = df.at[counter, 'f']
+            
+            elif wea.at[counter, 'Bin'] == wea.at[counter + 1, 'Bin'] - 1:
+                df.at[counter, 'V extended'] = df.at[counter, 'V']
+                df.at[counter, 'f extended'] = df.at[counter, 'f']
+
+            else:
+                df.at[counter, 'V extended'] = df.at[counter, 'V']
+
+                df.loc[len_df + df_counter, 'Identifier'] = id
+                df.loc[len_df + df_counter, 'Bin'] = bin
+                df.loc[len_df + df_counter, 'V'] = df.at[counter, 'V']
+                df.loc[len_df + df_counter, 'V extended'] = 30
+                df.loc[len_df + df_counter, 'P'] = df.at[counter, 'P']
+                df_counter += 1
+                break
+            counter += 1
+    df = df.sort_values(['Identifier', 'Bin', 'V'])
+    df = df.reset_index(drop=True)
+    df = df.drop(df.index[-1])
+
+
+
 
 def extend():
     global df
@@ -220,6 +279,13 @@ def extendo():
                 elif wea.index[counter] == wea.index[-1]:
                     df.at[counter, 'V extended'] = df.at[counter, 'V']
                     df.at[counter, 'f extended'] = df.at[counter, 'f']
+
+                    df.at[df_len + df_counter, 'Identifier'] = df.at[counter, 'Identifier']
+                    df.at[df_len + df_counter, 'Bin'] = df.at[counter, 'Bin']
+                    df.at[df_len + df_counter, 'V'] = df.at[counter, 'V']
+                    df.at[df_len + df_counter, 'V extended'] = 30
+                    df.at[df_len + df_counter, 'P'] = df.at[counter, 'P']
+                    df_counter += 1
                     break
 
                 elif wea['Identifier'].index[counter] == wea['Identifier'].index[counter + 1] - 1:
@@ -267,7 +333,7 @@ def extendo():
                     df['V extended'].index[counter] = df['V'].index[counter]
                     df['f extended'].index[counter] = df['f'].index[counter]
 
-                    df['Identifier'].index[df_len + df_counter] = df['Identifier'].index[counter]
+                    df['Identifier'].index[df_len + df_counter] = df['Identifier'].i1ndex[counter]
                     df['Bin'].index[df_len + df_counter] = df['Bin'].index[counter]
                     df['V'].index[df_len + df_counter] = df['V'].index[counter]
                     df['V extended'].index[df_len + df_counter] = 30
@@ -315,20 +381,29 @@ def del_row():
     group_df = df.groupby('Identifier')
     for id, wea in group_df:
         if id != 'HK':
-            wea['Doppel'] = wea.duplicated(subset='Bin', keep='first')
-            #print(wea)
+            wea['Doppel'] = wea.duplicated(subset='Bin')
+            print("WEAAE")
+            print(wea)
             for boolean in wea['Doppel']:
                 #print("BOOLEAN VALUE: ")
                 #print(boolean)
                 if boolean == True:
+                    # Index + 1 damit die stelle mit dem doppelten Bin nicht gelöscht wird
                     idx_true = wea[wea['Doppel'] == True].index + 1
                     end_df = wea.index[-1]
 
+                    print("IDX_TRUE")
+                    print(idx_true)
+
                     start_df = idx_true[0]
 
+                    print("Start_df = ", start_df)
+                    print("END_DF = ", end_df)
                     #wea.at[start_df - 1, 'Doppel'] = False
-
-                    for i in wea:
+                    if start_df > end_df:
+                        break
+                    for i in wea['Doppel']:
+                        print("IIII: ", i)
                         if start_df <= end_df:
                             df.at[start_df, 'Doppel'] = True
                             wea.at[start_df, 'Doppel'] = True
@@ -684,12 +759,37 @@ def abweichung():
         counter += 1
 
 
+def bin_gap():
+    global df
+    group_df = df.groupby('Identifier')
+    counter = 0
+    df_length = len(df)
+
+    for id, wea in group_df:
+
+        for bin in wea['Bin']:
+            if bin == 0:
+                continue
+            
+            if wea.at[counter, 'Bin'] < wea.at[counter + 1, 'Bin'] - 1:
+                df.at[counter + 1, 'Bin'] = wea.at[counter, 'Bin']
+                
+            print("GAP: ", bin)
+
+
+            counter += 1
+
+
 rower()
 df = df.reset_index(drop=True)
 cacu()
+#bin_gap()
+extend_test()
+#print(df)
+
 #extendo()
-extended()
-df['V extended'] = df['V extended'].fillna(30)
+#extended()
+#df['V extended'] = df['V extended'].fillna(30)
 del_row()
 df = df.drop('Doppel', axis=1)
 verteilung()
@@ -731,6 +831,7 @@ def f_weibull():
         df.at[counter, 'f'] = a - b
         print("F: ", df.at[counter, 'f'])
         counter += 1
+
 
 def weibull():
     counter = 1
@@ -808,6 +909,7 @@ def weibull():
 
             counter += 1
 
+
 def vert_funk():
     counter = 1
     a = fk.weibull_b
@@ -847,7 +949,6 @@ def row_add():
             df.at[counter - 1, 'Identifier'].index += 1
             print("df.at[counter - 1, 'Identifier'].index new: ", df.at[counter - 1, 'Identifier'].index)
         counter += 1
-
 
 
 def del_ext():
@@ -905,9 +1006,6 @@ def del_ext():
         #wea = wea.drop(wea[wea['Doppel'] == True].index + 1, len(wea)-1)
         #print("WEA DROP: ", wea)
             
-
-
-
 
         #len_wea = len(wea)
         #for i in range(len(wea['Doppel'])):
